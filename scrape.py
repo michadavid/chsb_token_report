@@ -121,7 +121,7 @@ def main():
     # results log files
     log_dir = 'CHSB_tsv'
     log_file = create_new_logfile(log_dir)
-    header = ['url', 'title', 'row', '#', 'Name', 'Symbol', 'Market', 'Cap', 'Price', 'Circulating Supply',
+    header = ['url', 'title', 'row', '#', 'Name', 'Symbol', 'Market Cap', 'Price', 'Circulating Supply',
               'Volume (24h)', '% 1h', '% 24h', '% 7d']
     log_to_tsv(log_file, header, m='w')
 

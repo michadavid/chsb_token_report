@@ -1,4 +1,4 @@
-url	title	row	#	Name	Symbol	Market	Cap	Price	Circulating Supply	Volume (24h)	\% 1h	\% 24h	\% 7d
+url	title	row	#	Name	Symbol	Market Cap	Price	Circulating Supply	Volume (24h)	\% 1h	\% 24h	\% 7d
 https://coinmarketcap.com/historical/20200126	25 January 2020	215	SwissBorg	CHSB	$17,574,259	$0.025703	683,742,882 CHSB *	$88,259	0.66%	0.52%	8.52%	
 https://coinmarketcap.com/historical/20200119	18 January 2020	223	SwissBorg	CHSB	$16,224,654	$0.023729	683,741,315 CHSB *	$141,776	0.54%	-11.00%	23.77%	
 https://coinmarketcap.com/historical/20200112	11 January 2020	243	SwissBorg	CHSB	$13,275,780	$0.019416	683,741,315 CHSB *	$90,979	0.32%	-7.34%	17.26%	

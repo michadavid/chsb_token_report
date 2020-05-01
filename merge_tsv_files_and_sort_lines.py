@@ -30,7 +30,7 @@ for f in read_files:
 
 lines.sort()
 
-header = ['url\ttitle\t#\tName\tSymbol\tMarket\tCap\tPrice\tCirculating Supply\tVolume (24h)\t% 1h\t% 24h\t% 7d\n']
+header = ['url\ttitle\t#\tName\tSymbol\tMarket Cap\tPrice\tCirculating Supply\tVolume (24h)\t% 1h\t% 24h\t% 7d\n']
 lines = header + lines
 
 with open(weekly_stats_file, 'w') as outfile:
