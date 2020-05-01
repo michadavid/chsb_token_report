@@ -15,8 +15,9 @@ in any case
 """
 
 import glob
+from os.path import join
 
-read_files = glob.glob('*.tsv')
+read_files = glob.glob(join('CHSB_tsv', '*.tsv'))
 weekly_stats_file = 'chsb_weekly_stats.txt'
 
 

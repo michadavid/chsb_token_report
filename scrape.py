@@ -89,10 +89,6 @@ async def get_data(url, target, max_pages):
                 print(cells_txt)
                 await browser.close()
                 return [url, page_title, cells_txt]
-                #log_to_tsv(log_results, [url, page_title, cells_txt])
-                #log_to_tsv(processed_urls_file, [url])
-                #found_row = True
-                #break
 
         # if target is not wound on current page, load more rows
         # find "load more" button
@@ -123,7 +119,7 @@ def main():
             os.utime(processed_urls_file, None)
 
     # results log files
-    log_dir = '.'
+    log_dir = 'CHSB_tsv'
     log_file = create_new_logfile(log_dir)
     header = ['url', 'title', 'row', '#', 'Name', 'Symbol', 'Market', 'Cap', 'Price', 'Circulating Supply',
               'Volume (24h)', '% 1h', '% 24h', '% 7d']
