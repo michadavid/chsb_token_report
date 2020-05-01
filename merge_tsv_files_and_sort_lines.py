@@ -18,7 +18,7 @@ import glob
 from os.path import join
 
 read_files = glob.glob(join('CHSB_tsv', '*.tsv'))
-weekly_stats_file = 'chsb_weekly_stats.txt'
+weekly_stats_file = 'chsb_weekly_stats.tsv'
 
 
 lines = []
