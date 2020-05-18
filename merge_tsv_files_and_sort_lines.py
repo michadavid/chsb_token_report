@@ -20,7 +20,7 @@ import sys
 
 token = sys.argv[1]
 
-read_files = glob.glob(join(token+'_tsv', '*.tsv'))
+read_files = glob.glob(join(token+'_weekly_tsv', '*.tsv'))
 weekly_stats_file = token+'_weekly_stats.tsv'
 
 

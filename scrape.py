@@ -109,17 +109,17 @@ async def get_data(url, target, max_pages):
 def main(token):
     # define search criteria
     max_n_pages = 5
-    urls_file = token+'_urls.txt'
+    urls_file = token+'_weekly_urls.txt'
 
     # processed URLs log file
-    processed_urls_file = token+'_urls_processed.txt'
+    processed_urls_file = token+'_weekly_urls_processed.txt'
     # in case the script has to be rerun, the processed URLs log file is kept
     if not os.path.isfile(processed_urls_file):
         with open(processed_urls_file, 'a'):
             os.utime(processed_urls_file, None)
 
     # results log files
-    log_dir = token+'_tsv'
+    log_dir = token+'_weekly_tsv'
     log_file = create_new_logfile(log_dir)
     header = ['url', 'title', 'row', '#', 'Name', 'Symbol', 'Market Cap', 'Price', 'Circulating Supply',
               'Volume (24h)', '% 1h', '% 24h', '% 7d']
