@@ -25,6 +25,7 @@ from pyppeteer import launch
 from time import sleep
 from datetime import datetime
 import os
+import sys
 
 
 def log_to_tsv(fp, row, m='a'):
@@ -105,21 +106,20 @@ async def get_data(url, target, max_pages):
     return [False]
 
 
-def main():
+def main(token):
     # define search criteria
-    token = 'CHSB'
     max_n_pages = 5
-    urls_file = 'urls.txt'
+    urls_file = token+'_urls.txt'
 
     # processed URLs log file
-    processed_urls_file = 'urls_processed.txt'
+    processed_urls_file = token+'_urls_processed.txt'
     # in case the script has to be rerun, the processed URLs log file is kept
     if not os.path.isfile(processed_urls_file):
         with open(processed_urls_file, 'a'):
             os.utime(processed_urls_file, None)
 
     # results log files
-    log_dir = 'CHSB_tsv'
+    log_dir = token+'_tsv'
     log_file = create_new_logfile(log_dir)
     header = ['url', 'title', 'row', '#', 'Name', 'Symbol', 'Market Cap', 'Price', 'Circulating Supply',
               'Volume (24h)', '% 1h', '% 24h', '% 7d']
@@ -143,4 +143,4 @@ def main():
                         break
 
 
-main()
+main(token=str(sys.argv[1]))

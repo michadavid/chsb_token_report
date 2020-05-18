@@ -116,3 +116,5 @@ https://coinmarketcap.com/historical/20180211
 https://coinmarketcap.com/historical/20180204
 https://coinmarketcap.com/historical/20200426
 https://coinmarketcap.com/historical/20200503
+https://coinmarketcap.com/historical/20200510
+https://coinmarketcap.com/historical/20200517

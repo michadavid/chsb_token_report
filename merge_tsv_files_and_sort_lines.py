@@ -16,9 +16,12 @@ in any case
 
 import glob
 from os.path import join
+import sys
 
-read_files = glob.glob(join('CHSB_tsv', '*.tsv'))
-weekly_stats_file = 'chsb_weekly_stats.tsv'
+token = sys.argv[1]
+
+read_files = glob.glob(join(token+'_tsv', '*.tsv'))
+weekly_stats_file = token+'_weekly_stats.tsv'
 
 
 lines = []
