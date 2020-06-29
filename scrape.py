@@ -59,88 +59,105 @@ def create_new_logfile(p):
     return fn
 
 
-async def get_data(url, target, max_pages):
+async def get_data(target, max_pages, log_file, processed_urls_file, urls_file):
     """
-    :param url: URL to scrape data from
     :param target: Token or coin name to search for
     :param max_pages: Maximum number of additional pages to load on each site
     :return: search result or False if unsuccessful in list form for tsv logging
     """
+
     browser = await launch()
     page = await browser.newPage()
-    await page.goto(url)
 
-    ti = await page.querySelector('h1')
-    page_title = await page.evaluate('(ti) => ti.textContent', ti)
-    page_title = page_title.split(' - ')[1]
-    print('')
-    print(page_title)
+    with open(urls_file) as uf:
+        with open(processed_urls_file) as puf:
+            for line in uf:
+                if line not in puf:
+                    url = line.rstrip('\n')
 
-    # search max n_pages pages
-    for p in range(max_pages):
-        # search table
-        rows = await page.querySelectorAll('tr')
-        for r in rows:
-            row = await page.evaluate('(r) => r.textContent', r)
-            # check if target currency is in row text
-            if target in row:
-                # get text from all cells in row
-                cells = await r.querySelectorAll('td')
-                cells_txt = '\t'.join([await page.evaluate('(c) => c.textContent', c) for c in cells])
-                print(cells_txt)
-                await browser.close()
-                return [url, page_title, cells_txt]
+                    await page.goto(url)
 
-        # if target is not wound on current page, load more rows
-        # find "load more" button
-        cmc_buttons = await page.querySelectorAll('.cmc-button')
-        for cb in cmc_buttons:
-            button_text = await page.evaluate('(cb) => cb.textContent', cb)
-            if 'Load More' == button_text:
-                print('loading more rows')
-                await cb.click()
-                sleep(5)  # work-around to allow loading the whole table
-                break
+                    ti = await page.querySelector('h1')
+                    page_title = await page.evaluate('(ti) => ti.textContent', ti)
+                    page_title = page_title.split(' - ')[1]
+                    print('')
+                    print(page_title)
+                    found_target = False
+
+                    # search max n_pages pages
+                    for p in range(max_pages):
+                        if not found_target:
+                            # search table
+                            rows = await page.querySelectorAll('tr')
+                            for r in rows:
+                                if not found_target:
+                                    row = await page.evaluate('(r) => r.textContent', r)
+                                    # check if target currency is in row text
+                                    if target in row:
+                                        # get text from all cells in row
+                                        cells = await r.querySelectorAll('td')
+                                        cells_txt = '\t'.join([await page.evaluate('(c) => c.textContent', c) for c in cells])
+                                        print(cells_txt)
+                                        #await browser.close()
+                                        log_to_tsv(log_file, [url, page_title, cells_txt])
+                                        log_to_tsv(processed_urls_file, [url])
+                                        found_target = True
+                                        # return [url, page_title, cells_txt]
+                                else:
+                                    break
+
+                            if not found_target:
+                                # if target is not found on current page, load more rows
+                                # find "load more" button
+                                cmc_buttons = await page.querySelectorAll('.cmc-button')
+                                for cb in cmc_buttons:
+                                    button_text = await page.evaluate('(cb) => cb.textContent', cb)
+                                    if 'Load More' == button_text:
+                                        print('loading more rows')
+                                        await cb.click()
+                                        sleep(5)  # work-around to allow loading the whole table
+                                        break
+
+                        else:
+                            break
 
     await browser.close()
-    return [False]
+    # return [False]
 
 
 def main(token):
     # define search criteria
-    max_n_pages = 5
-    urls_file = token+'_weekly_urls.txt'
+    max_n_pages = 10
+    # urls_file = token+'_weekly_urls.txt'
+    urls_file = token + '_urls.txt'
 
     # processed URLs log file
-    processed_urls_file = token+'_weekly_urls_processed.txt'
+    processed_urls_file = token + '_urls_processed.txt'
+    # processed_urls_file = token+'_weekly_urls_processed.txt'
     # in case the script has to be rerun, the processed URLs log file is kept
     if not os.path.isfile(processed_urls_file):
         with open(processed_urls_file, 'a'):
             os.utime(processed_urls_file, None)
 
     # results log files
-    log_dir = token+'_weekly_tsv'
+    log_dir = token+'_tsv'
+    # log_dir = token + '_weekly_tsv'
     log_file = create_new_logfile(log_dir)
     header = ['url', 'title', 'row', '#', 'Name', 'Symbol', 'Market Cap', 'Price', 'Circulating Supply',
               'Volume (24h)', '% 1h', '% 24h', '% 7d']
     log_to_tsv(log_file, header, m='w')
 
-    with open(urls_file) as uf:
-        with open(processed_urls_file) as puf:
-            for line in uf:
-                if line not in puf:
-                    stripped_url_line = line.rstrip('\n')
-                    try:
-                        result = asyncio.get_event_loop().run_until_complete(get_data(url=stripped_url_line,
-                                                                                      target=token,
-                                                                                      max_pages=max_n_pages))
-                        log_to_tsv(log_file, result)
-                        log_to_tsv(processed_urls_file, [stripped_url_line])
+    try:
+        asyncio.get_event_loop().run_until_complete(get_data(target=token,
+                                                             max_pages=max_n_pages,
+                                                             log_file=log_file,
+                                                             processed_urls_file=processed_urls_file,
+                                                             urls_file=urls_file))
 
-                    except Exception as ex:
-                        os.system('say "error!"')
-                        print(ex)
-                        break
+    except Exception as ex:
+        os.system('say "error!"')
+        print(ex)
+        # break
 
 
 main(token=str(sys.argv[1]))
