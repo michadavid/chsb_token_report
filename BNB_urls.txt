@@ -1,3 +1,7 @@
+https:/coinmarketcap.com/historical/20200725
+https:/coinmarketcap.com/historical/20200718
+https:/coinmarketcap.com/historical/20200711
+https:/coinmarketcap.com/historical/20200704
 https:/coinmarketcap.com/historical/20200627
 https:/coinmarketcap.com/historical/20200620
 https:/coinmarketcap.com/historical/20200613
