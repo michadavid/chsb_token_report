@@ -1,1 +1,5 @@
-https:/coinmarketcap.com/historical/20200906
+https:/coinmarketcap.com/historical/20200907
+https:/coinmarketcap.com/historical/20200908
+https:/coinmarketcap.com/historical/20200909
+https:/coinmarketcap.com/historical/20200910
+https:/coinmarketcap.com/historical/20200911
